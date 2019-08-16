@@ -1,10 +1,11 @@
 const { exec, spawnSync } = require('child_process')
+const _cliProgress = require('cli-progress');
 const { listApps } = require('../data')
 const chalk = require('chalk');
 
-const TIME_SLEEP = 5
-const recicle = async (appList) => {
-
+let TIME_SLEEP = 20;
+const recicle = async (appList, time = 5) => {
+  TIME_SLEEP = time;
   const appsData = [];
 
   for (let app of appList) {
@@ -13,11 +14,11 @@ const recicle = async (appList) => {
   }
 
   if (appsData.length == 0) {
-    console.log(`${chalk.red('App não encontrado!')}`);
+    console.log(chalk.red('App não encontrado!'));
     return null;
   }
 
-  console.log(`${chalk.green('Executando..')}`);
+  console.log(chalk.green('Executando..'));
   // const listPods = getPods(appsData);
   const listPods = [
     [
@@ -74,15 +75,16 @@ const reciclePods = async (listPods) => {
 
   let promises = [];
   for (let x = 0; x < maior; x++) {
+
     for (app of listPods) {
       const initial = x;
       const max = x + 2;
       promises.push(killPods(app, initial, max));
     }
     x++;
-    console.log(`${chalk.red('Aguardando...!')}`);
     await Promise.all(promises);
-    spawnSync('sleep', [TIME_SLEEP])
+    // spawnSync('sleep', [TIME_SLEEP])
+    await barShow();
     promises = [];
   }
 
@@ -108,7 +110,18 @@ const reciclePods = async (listPods) => {
  
    const result = await Promise.all(promises);
    */
-  console.log('FINAL')
+  console.log(chalk.green('Finalizado com sucesso!'));
+}
+
+const barShow = async () => {
+  const bar = new _cliProgress.SingleBar({}, _cliProgress.Presets.shades_grey);
+  bar.start(TIME_SLEEP, 0);
+
+  for (let t = 1; t <= TIME_SLEEP; t++) {
+    spawnSync('sleep', [1]);
+    bar.update(t);
+  }
+  bar.stop();
 }
 
 const killPods = (app, index, max) => {

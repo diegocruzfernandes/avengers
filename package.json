@@ -21,10 +21,8 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "cli-progress": "^3.0.0",
     "cli-table": "^0.3.1",
-    "commander": "^2.19.0",
-    "figlet": "^1.2.1",
-    "inquirer": "^6.2.2",
-    "shelljs": "^0.8.3"
+    "commander": "^2.19.0"
   }
 }
