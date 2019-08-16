@@ -12,7 +12,7 @@ program
   .command('list')
   .description('Adiciona um to-do')
   .action(async () => {
-   
+
     listApps.forEach(d => {
       console.log(`Name: ${d.name} - ${d.pod}`)
     })

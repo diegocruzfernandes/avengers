@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/diegocruzfernandes/avengers#readme",
   "bin": {
-    "avengers": "index.js"
+    "avengers": "bin/avengers"
   },
   "dependencies": {
     "chalk": "^2.4.2",
